@@ -7,6 +7,7 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
 
 FILE_PATH = './input.txt'
 MODE_READ = 'r'
@@ -17,7 +18,7 @@ vertex_quantity = 0
 links = 0
 directed = 0
 
-def read_input():
+def read_input(matrix):
     file1 = open(FILE_PATH, MODE_READ)
     count = 0
     
@@ -44,8 +45,19 @@ def plot_graph():
     plt.savefig("path_graph1.png")
     plt.show()
 
-
-read_input()
-
-
+#read_input()
 # networkx
+
+
+def create_matrix(rows, columns):
+    vertex_empty = {
+        "source":0,
+        "target":0,
+        "weight":0
+    }
+    matrix = np.full((rows,columns), vertex_empty, dtype=type(vertex_empty))
+    return matrix
+
+
+m = create_matrix(3,3)
+print(m)
