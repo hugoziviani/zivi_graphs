@@ -20,35 +20,38 @@ def read_input_and_insert_graph():
     count = 0
     line = file1.readline()
     info = line.split()
-    
+
     ######## Information graph #########
     vertex_quantity = int(info[0])
     links = int(info[1])
     directed = bool(info[2])
-    
+
+    matrix = create_matrix(vertex_quantity)
     # print("vertex_quantity:", vertex_quantity) 
     # print("links:", type(links))
     # print("directed:", type(directed))
 
     ######## Information graph #########
     
-    while count <= vertex_quantity+1:
+    while count <= vertex_quantity+1: # varre ate o fim do arquivo
         
         line = file1.readline() 
         if not line: 
             break
         info = line.split()
 
-        source = int(info[0])
-        destiny = int(info[1])
+        source = int(info[0])-1
+        destiny = int(info[1])-1
         weight = int(info[2])
-        print("source:", source)
-        print("destiny:", destiny)
-        print("weight:", weight)
-        print()
+        # print("source:", source)
+        # print("destiny:", destiny)
+        # print("weight:", weight)
+        matrix[source][destiny]["weight"] = weight
+        
         count += 1
     
-    file1.close() 
+    file1.close()
+    return matrix
 
 def plot_graph():
     G=nx.path_graph(4)
@@ -63,10 +66,9 @@ def plot_graph():
     plt.savefig("path_graph1.png")
     plt.show()
 
-def create_matrix(rows, columns):
+def create_matrix(rows):
+    columns = rows
     vertex_empty = {
-        "source":0,
-        "target":0, # sí inteiro, pois cada um sera um vertice
         "weight":0
     }
     matrix = np.full((rows,columns), vertex_empty, dtype=type(vertex_empty))
@@ -75,8 +77,8 @@ def create_matrix(rows, columns):
 
 def main():
     
-    read_input_and_insert_graph()
-    print()
+    m = read_input_and_insert_graph()
+    print(m)
 
 
 if __name__ == "__main__":
