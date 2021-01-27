@@ -46,8 +46,7 @@ def read_input_and_insert_graph():
         # print("source:", source)
         # print("destiny:", destiny)
         # print("weight:", weight)
-        matrix[source][destiny]["weight"] = weight
-        
+        matrix[source][destiny] = weight
         count += 1
     
     file1.close()
@@ -68,15 +67,13 @@ def plot_graph():
 
 def create_matrix(rows):
     columns = rows
-    vertex_empty = {
-        "weight":0
-    }
-    matrix = np.full((rows,columns), vertex_empty, dtype=type(vertex_empty))
+    matrix = np.zeros((columns, rows))
     return matrix
 
 
 def main():
-    
+    # m = create_matrix(2)
+    # m[1][1]=1
     m = read_input_and_insert_graph()
     print(m)
 
