@@ -23,7 +23,7 @@ def read_input_and_insert_graph():
     vertex_quantity = int(info[0])
 
     links = int(info[1])
-    print(">>", info[2])
+
     if info[2] == "0":
         directed = False
     else:
@@ -48,7 +48,7 @@ def read_input_and_insert_graph():
             count += 1
 
     else:
-        print("Nao direcionado, tem aresta nos dois lados", directed)
+        # print("Nao direcionado, tem aresta nos dois lados", directed)
         while count <= vertex_quantity+1:
             
             line = file1.readline() 
@@ -86,21 +86,27 @@ def create_matrix(rows):
     matrix = np.zeros((columns, rows))
     return matrix
 
-def show_matrix_and_weights(matrix, vertex_quantity):
+def show_matrix_and_weights(matrix, vertex_quantity, writer):
     element_idx = 0
-    print(vertex_quantity)
     for x in range(vertex_quantity):
         for line in matrix[x]:
             if line != 0:
                 print(x+1, element_idx+1, int(line))
+                writer.write(f"{x+1} {element_idx+1} {int(line)}\n")
             element_idx+=1
         element_idx=0
 
 def main():
-    
-    matrix, vertex_quantity, links, directed = read_input_and_insert_graph()
-    
-    show_matrix_and_weights(matrix, vertex_quantity)
+    with open("out.txt", "w") as writer:
+        matrix, vertex_quantity, links, directed = read_input_and_insert_graph()
+        # print(vertex_quantity, links)
+        if directed:
+            print(f"{vertex_quantity} {links} DIRECIONADO")
+            writer.write(f"{vertex_quantity} {links} DIRECIONADO\n")
+        else:
+            print(f"{vertex_quantity} {links} NAO DIRECIONADO")
+            writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
+        show_matrix_and_weights(matrix, vertex_quantity, writer)
     # print(matrix)
 
 if __name__ == "__main__":
