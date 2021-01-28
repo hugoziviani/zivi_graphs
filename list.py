@@ -71,8 +71,8 @@ def create_matrix(rows):
     matrix = np.zeros((columns, rows))
     return matrix
 
-def main():
-    
+def main(argv):
+    print(len(argv)
     matrix, vertex_quantity, links, directed, pair_list = read_input_and_insert_graph()
     print(pair_list)
     plot_graph(vertex_quantity, pair_list)

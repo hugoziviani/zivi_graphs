@@ -6,15 +6,17 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
 
 FILE_PATH = './input.txt'
 MODE_READ = 'r'
 MODE_WRITE = 'w'
+FILE_OUTPUT = "out.txt"
 
 
-def read_input_and_insert_graph():
-    file1 = open(FILE_PATH, MODE_READ)
+def read_input_and_insert_graph(file_input_path):
+    file1 = open(file_input_path, MODE_READ)
     count = 0
     line = file1.readline()
     info = line.split()
@@ -42,7 +44,7 @@ def read_input_and_insert_graph():
             source = int(info[0])-1
             destiny = int(info[1])-1
             weight = int(info[2])
-            
+
             matrix[source][destiny] = weight
             # matrix[destiny][source] = weight
             count += 1
@@ -96,9 +98,12 @@ def show_matrix_and_weights(matrix, vertex_quantity, writer):
             element_idx+=1
         element_idx=0
 
-def main():
-    with open("out.txt", "w") as writer:
-        matrix, vertex_quantity, links, directed = read_input_and_insert_graph()
+def main(argv):
+    print(len(argv))
+    file_input_path = argv[0]
+    file_output_path = argv[1]
+    with open(file_output_path, MODE_WRITE) as writer:
+        matrix, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
         # print(vertex_quantity, links)
         if directed:
             print(f"{vertex_quantity} {links} DIRECIONADO")
@@ -110,4 +115,4 @@ def main():
     # print(matrix)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
