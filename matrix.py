@@ -3,8 +3,6 @@
         https://www.python-course.eu/networkx.php
 '''
 
-
-
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,15 +24,14 @@ def read_input_and_insert_graph():
 
     links = int(info[1])
     print(">>", info[2])
-    if info[2] == 0:
+    if info[2] == "0":
         directed = False
     else:
         directed = True
     matrix = create_matrix(vertex_quantity)
-    print("is directed", directed)
+    
     ######## Information graph #########
     if directed:
-        print("is directed", directed)
         while count <= vertex_quantity+1: # varre ate o fim do arquivo
         
             line = file1.readline() 
@@ -47,11 +44,12 @@ def read_input_and_insert_graph():
             weight = int(info[2])
             
             matrix[source][destiny] = weight
-            matrix[destiny][source] = weight
+            # matrix[destiny][source] = weight
             count += 1
 
     else:
-        while count <= vertex_quantity+1: # varre ate o fim do arquivo
+        print("Nao direcionado, tem aresta nos dois lados", directed)
+        while count <= vertex_quantity+1:
             
             line = file1.readline() 
             if not line: 
@@ -88,7 +86,7 @@ def create_matrix(rows):
     matrix = np.zeros((columns, rows))
     return matrix
 
-def show_matrix_and_weights(vertex_quantity, matrix):
+def show_matrix_and_weights(matrix, vertex_quantity):
     element_idx = 0
     print(vertex_quantity)
     for x in range(vertex_quantity):
@@ -101,7 +99,8 @@ def show_matrix_and_weights(vertex_quantity, matrix):
 def main():
     
     matrix, vertex_quantity, links, directed = read_input_and_insert_graph()
-    show_matrix_and_weights(vertex_quantity, matrix)
+    
+    show_matrix_and_weights(matrix, vertex_quantity)
     # print(matrix)
 
 if __name__ == "__main__":
