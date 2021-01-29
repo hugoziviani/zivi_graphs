@@ -76,21 +76,22 @@ def read_input_and_insert_graph(file_input_path):
                 print("OK>>>>", adjacences_list)
                 
                 temporary = adjacences_list[source]["adjacents"]
-                temporary.append((source, weight))
+                temporary.append((destiny, weight))
+                
+                # temporary = adjacences_list[destiny]["adjacents"]
+                # temporary.append((source, weight))
 
                 # adjacences_list[destiny]["adjacents"].append((source, weight))
                 # print("node existent:", type(temporary))
-                # print("node existent:", temporary)
+                print("node existent:", temporary)
             else: # nao existe, cria a lista de vizinhos
                 adjacences_list[source] = {
                     "adjacents" : [(destiny, weight)]
                 }
-                # adjacences_list[destiny] = {
-                #     "adjacents" : [(source, weight)]
-                # }
+                adjacences_list[destiny] = {
+                    "adjacents" : [(source, weight)]
+                }
                 
-
-            
             count += 1
 
 
