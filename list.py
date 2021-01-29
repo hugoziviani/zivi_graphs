@@ -27,38 +27,74 @@ def read_input_and_insert_graph(file_input_path):
 
     adjacences_list = {}
 
-    ######## Information graph #########
-    while count <= vertex_quantity+1: # varre ate o fim do arquivo
+    if directed: # se é direcionado, nao adiciona o correspondente invertido
+        ######## Information graph #########
+        while count <= vertex_quantity+1: # varre ate o fim do arquivo
+            
+            line = file1.readline() 
+            if not line: 
+                break
+            info = line.split()
+
+            source = int(info[0])-1
+            destiny = int(info[1])-1
+            weight = int(info[2])
+            # print("source:", source)
+            # print("destiny:", destiny)
+            # print("weight:", weight)
+            
+            if source in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
+                print("OK>>>>", adjacences_list)
+                
+                temporary = adjacences_list[source]["adjacents"]
+                temporary.append((source, weight))
+                # print("node existent:", type(temporary))
+            else: # nao existe, cria a lista de vizinhos
+                adjacences_list[source] = {
+                    "adjacents" : [(destiny, weight)]
+                }
+
+            
+            count += 1
+
+    else: # adiciona o correspondente
+        while count <= vertex_quantity+1: # varre ate o fim do arquivo
+            
+            line = file1.readline() 
+            if not line: 
+                break
+            info = line.split()
+
+            source = int(info[0])-1
+            destiny = int(info[1])-1
+            weight = int(info[2])
+            # print("source:", source)
+            # print("destiny:", destiny)
+            # print("weight:", weight)
+            
+            if source in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
+                print("OK>>>>", adjacences_list)
+                
+                temporary = adjacences_list[source]["adjacents"]
+                temporary.append((source, weight))
+
+                # adjacences_list[destiny]["adjacents"].append((source, weight))
+                # print("node existent:", type(temporary))
+                # print("node existent:", temporary)
+            else: # nao existe, cria a lista de vizinhos
+                adjacences_list[source] = {
+                    "adjacents" : [(destiny, weight)]
+                }
+                # adjacences_list[destiny] = {
+                #     "adjacents" : [(source, weight)]
+                # }
+                
+
+            
+            count += 1
+
+
         
-        line = file1.readline() 
-        if not line: 
-            break
-        info = line.split()
-
-        source = int(info[0])-1
-        destiny = int(info[1])-1
-        weight = int(info[2])
-        # print("source:", source)
-        # print("destiny:", destiny)
-        # print("weight:", weight)
-        if source in adjacences_list:
-            temporary = adjacences_list[source]["adjacents"]
-            temporary.append((source, weight))
-            print("node existent:", type(temporary))
-        else: 
-            adjacences_list[source] =  {
-                "adjacents" : [(destiny, weight)]
-            }
-
-        # if source in adjacences_list:
-        #     adjacences_list["source"].append()
-        # else:
-        #     adjacences_list["source"][]
-        # add_vertex(adjacences_list, {source, destiny, weight})
-
-        # print(vertex)
-        count += 1
-    
     file1.close()
     return adjacences_list, vertex_quantity, links, directed
 
@@ -87,7 +123,7 @@ def main(argv):
     with open(file_output_path, MODE_WRITE) as writer:
         adjacences_list, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
         
-        print(adjacences_list)
+        print("LISTA COMPLETA:",adjacences_list)
 
         if directed:
             # print(f"{vertex_quantity} {links} DIRECIONADO")
