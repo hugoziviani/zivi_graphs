@@ -3,20 +3,16 @@
         https://www.python-course.eu/networkx.php
 '''
 
-
-
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import sys
 
-
-FILE_PATH = './input.txt'
 MODE_READ = 'r'
 MODE_WRITE = 'w'
 
-
-def read_input_and_insert_graph():
-    file1 = open(FILE_PATH, MODE_READ)
+def read_input_and_insert_graph(file_input_path):
+    file1 = open(file_input_path, MODE_READ)
     count = 0
     line = file1.readline()
     info = line.split()
@@ -24,9 +20,13 @@ def read_input_and_insert_graph():
     ######## Information graph #########
     vertex_quantity = int(info[0])
     links = int(info[1])
-    directed = bool(info[2])
-    matrix = create_matrix(vertex_quantity)
-    pair_list = []
+    if info[2] == "0":
+        directed = False
+    else:
+        directed = True
+
+    adjacences_list = {}
+
     ######## Information graph #########
     while count <= vertex_quantity+1: # varre ate o fim do arquivo
         
@@ -41,12 +41,26 @@ def read_input_and_insert_graph():
         # print("source:", source)
         # print("destiny:", destiny)
         # print("weight:", weight)
-        pair_list.append((source, destiny, weight))
-        matrix[source][destiny] = weight
+        if source in adjacences_list:
+            temporary = adjacences_list[source]["adjacents"]
+            temporary.append((source, weight))
+            print("node existent:", type(temporary))
+        else: 
+            adjacences_list[source] =  {
+                "adjacents" : [(destiny, weight)]
+            }
+
+        # if source in adjacences_list:
+        #     adjacences_list["source"].append()
+        # else:
+        #     adjacences_list["source"][]
+        # add_vertex(adjacences_list, {source, destiny, weight})
+
+        # print(vertex)
         count += 1
     
     file1.close()
-    return matrix, vertex_quantity, links, directed, pair_list
+    return adjacences_list, vertex_quantity, links, directed
 
 def plot_graph(n_vertex, pair_list):
     # G=nx.path_graph(4)
@@ -66,26 +80,29 @@ def plot_graph(n_vertex, pair_list):
     plt.savefig("path_graph1.png")
     plt.show()
 
-def create_matrix(rows):
-    columns = rows
-    matrix = np.zeros((columns, rows))
-    return matrix
-
 def main(argv):
-    print(len(argv)
-    matrix, vertex_quantity, links, directed, pair_list = read_input_and_insert_graph()
-    print(pair_list)
-    plot_graph(vertex_quantity, pair_list)
-    # print(matrix)
+    print(len(argv))
+    file_input_path = argv[0]
+    file_output_path = argv[1]
+    with open(file_output_path, MODE_WRITE) as writer:
+        adjacences_list, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
+        
+        print(adjacences_list)
 
+        if directed:
+            # print(f"{vertex_quantity} {links} DIRECIONADO")
+            writer.write(f"{vertex_quantity} {links} DIRECIONADO\n")
+        else:
+            # print(f"{vertex_quantity} {links} NAO DIRECIONADO")
+            writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
+        # show_matrix_and_weights(matrix, vertex_quantity, writer)
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
 
 
 # na lista voce vai adicionando os vertices adjacentes
 
 # se nao for direcionado, vá ate a posicao de cada um e adiciona o correspondente.
-
 
 # vou imprimir para todos os vertices 

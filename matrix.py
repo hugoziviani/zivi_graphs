@@ -8,12 +8,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 
-
-FILE_PATH = './input.txt'
 MODE_READ = 'r'
 MODE_WRITE = 'w'
-FILE_OUTPUT = "out.txt"
-
 
 def read_input_and_insert_graph(file_input_path):
     file1 = open(file_input_path, MODE_READ)
@@ -97,6 +93,7 @@ def show_matrix_and_weights(matrix, vertex_quantity, writer):
                 writer.write(f"{x+1} {element_idx+1} {int(line)}\n")
             element_idx+=1
         element_idx=0
+    # aqui posso paralelizar algo...
 
 def main(argv):
     print(len(argv))
