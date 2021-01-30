@@ -44,7 +44,7 @@ def read_input_and_insert_graph(file_input_path):
             # print("weight:", weight)
             
             if source in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
-                print("OK>>>>", adjacences_list)
+                # print("OK>>>>", adjacences_list)
                 
                 temporary = adjacences_list[source]["adjacents"]
                 temporary.append((source, weight))
@@ -73,7 +73,7 @@ def read_input_and_insert_graph(file_input_path):
             # print("weight:", weight)
             
             if source in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
-                print("OK>>>>", adjacences_list)
+                # print("OK>>>>", adjacences_list)
                 
                 temporary = adjacences_list[source]["adjacents"]
                 temporary.append((destiny, weight))
@@ -83,7 +83,7 @@ def read_input_and_insert_graph(file_input_path):
 
                 # adjacences_list[destiny]["adjacents"].append((source, weight))
                 # print("node existent:", type(temporary))
-                print("node existent:", temporary)
+                # print("node existent:", temporary)
             else: # nao existe, cria a lista de vizinhos
                 adjacences_list[source] = {
                     "adjacents" : [(destiny, weight)]
@@ -117,22 +117,30 @@ def plot_graph(n_vertex, pair_list):
     plt.savefig("path_graph1.png")
     plt.show()
 
+def show_list_and_weights(adjacences_list, vertex_quantity, writer):
+    for key, elements in adjacences_list.items():
+        for key2, adjacents in elements.items():
+            for item, weight in adjacents:
+                print(key+1, item+1, weight)
+    # print(adjacences_list)
+
+
 def main(argv):
-    print(len(argv))
+    # print(len(argv))
     file_input_path = argv[0]
     file_output_path = argv[1]
     with open(file_output_path, MODE_WRITE) as writer:
         adjacences_list, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
         
-        print("LISTA COMPLETA:",adjacences_list)
+        # print("LISTA COMPLETA:",adjacences_list)
 
         if directed:
-            # print(f"{vertex_quantity} {links} DIRECIONADO")
+            print(f"{vertex_quantity} {links} DIRECIONADO")
             writer.write(f"{vertex_quantity} {links} DIRECIONADO\n")
         else:
-            # print(f"{vertex_quantity} {links} NAO DIRECIONADO")
+            print(f"{vertex_quantity} {links} NAO DIRECIONADO")
             writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
-        # show_matrix_and_weights(matrix, vertex_quantity, writer)
+        show_list_and_weights(adjacences_list, vertex_quantity, writer)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
