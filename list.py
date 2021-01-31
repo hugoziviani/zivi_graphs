@@ -7,6 +7,8 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
+from itertools import chain
+from collections import defaultdict
 
 MODE_READ = 'r'
 MODE_WRITE = 'w'
@@ -25,7 +27,8 @@ def read_input_and_insert_graph(file_input_path):
     else:
         directed = True
 
-    adjacences_list = {}
+    adjacences_list = defaultdict(list)
+    adjacences_list_updated = defaultdict(list)
 
     if directed: # se é direcionado, nao adiciona o correspondente invertido
         ######## Information graph #########
@@ -69,30 +72,15 @@ def read_input_and_insert_graph(file_input_path):
             destiny = int(info[1])-1
             weight = int(info[2])
             
-            if source in adjacences_list and destiny in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
-                
-                temporary = adjacences_list[source]["adjacents"]
-                temporary.append((destiny, weight))
+            actual_itens = {source :{(destiny, weight)}, destiny :{(source, weight)}}
 
-                temporary2 = adjacences_list[destiny]["adjacents"]
-                temporary2.append((source, weight))
-                
-                # print(adjacences_list[destiny])
-                
-            else: # nao existe, cria a lista de vizinhos
-                adjacences_list[source] = {
-                    "adjacents" : [(destiny, weight)]
-                }
-                adjacences_list[destiny] = {
-                    "adjacents" : [(source, weight)]
-                }
-                
+            for k, v in chain(adjacences_list.items(), actual_itens.items()):
+                adjacences_list_updated[k].append(v)
+            
             count += 1
-
-
         
     file1.close()
-    return adjacences_list, vertex_quantity, links, directed
+    return adjacences_list_updated, vertex_quantity, links, directed
 
 def plot_graph(n_vertex, pair_list):
     # G=nx.path_graph(4)
@@ -113,13 +101,10 @@ def plot_graph(n_vertex, pair_list):
     plt.show()
 
 def show_list_and_weights(adjacences_list, vertex_quantity, writer):
-    # print(adjacences_list)
     for key, elements in adjacences_list.items():
-        for key2, adjacents in elements.items():
-            # print(adjacents)        
+        for adjacents in elements:
             for item, weight in adjacents:
-                print(key+1, item+1, weight)
-    
+                print(key+1,item+1, weight)
 
 
 def main(argv):
