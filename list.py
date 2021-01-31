@@ -68,22 +68,17 @@ def read_input_and_insert_graph(file_input_path):
             source = int(info[0])-1
             destiny = int(info[1])-1
             weight = int(info[2])
-            # print("source:", source)
-            # print("destiny:", destiny)
-            # print("weight:", weight)
             
-            if source in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
-                # print("OK>>>>", adjacences_list)
+            if source in adjacences_list and destiny in adjacences_list: # se ja existe o vertice, acrescenta na lista de vizinho
                 
                 temporary = adjacences_list[source]["adjacents"]
                 temporary.append((destiny, weight))
-                
-                # temporary = adjacences_list[destiny]["adjacents"]
-                # temporary.append((source, weight))
 
-                # adjacences_list[destiny]["adjacents"].append((source, weight))
-                # print("node existent:", type(temporary))
-                # print("node existent:", temporary)
+                temporary2 = adjacences_list[destiny]["adjacents"]
+                temporary2.append((source, weight))
+                
+                # print(adjacences_list[destiny])
+                
             else: # nao existe, cria a lista de vizinhos
                 adjacences_list[source] = {
                     "adjacents" : [(destiny, weight)]
@@ -118,11 +113,13 @@ def plot_graph(n_vertex, pair_list):
     plt.show()
 
 def show_list_and_weights(adjacences_list, vertex_quantity, writer):
+    # print(adjacences_list)
     for key, elements in adjacences_list.items():
         for key2, adjacents in elements.items():
+            # print(adjacents)        
             for item, weight in adjacents:
                 print(key+1, item+1, weight)
-    # print(adjacences_list)
+    
 
 
 def main(argv):
