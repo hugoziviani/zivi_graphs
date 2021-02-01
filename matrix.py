@@ -1,11 +1,9 @@
 '''
     referencias: 
         https://www.python-course.eu/networkx.php
+        para visualizacao dos grafos
 '''
 
-import networkx as nx
-import matplotlib.pyplot as plt
-import numpy as np
 import sys
 
 MODE_READ = 'r'
@@ -65,24 +63,17 @@ def read_input_and_insert_graph(file_input_path):
     file1.close()
     return matrix, vertex_quantity, links, directed
 
-def plot_graph():
-    G=nx.path_graph(4)
-    G.add_edges_from([("a","c"),("c","d"), ("a",1), (1,"d"), ("a",2)])
-
-    print("Nodes of graph: ")
-    print(G.nodes())
-    print("Edges of graph: ")
-    print(G.edges())
-
-    nx.draw(G)
-    plt.savefig("path_graph1.png")
-    plt.show()
-
 def create_matrix(rows):
     columns = rows
-    shape = (columns, rows)
-    matrix = np.zeros((columns, rows))
-    return matrix
+    mat = []
+    for i in range(rows):
+        row_list = []
+        for j in range(columns):
+            row_list.append(0)
+        mat.append(row_list)
+
+    return mat
+
 
 def show_matrix_and_weights(matrix, vertex_quantity, writer):
     element_idx = 0
@@ -96,12 +87,10 @@ def show_matrix_and_weights(matrix, vertex_quantity, writer):
     # aqui posso paralelizar algo...
 
 def main(argv):
-    print(len(argv))
     file_input_path = argv[0]
     file_output_path = argv[1]
     with open(file_output_path, MODE_WRITE) as writer:
         matrix, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
-        # print(vertex_quantity, links)
         if directed:
             print(f"{vertex_quantity} {links} DIRECIONADO")
             writer.write(f"{vertex_quantity} {links} DIRECIONADO\n")
@@ -109,7 +98,6 @@ def main(argv):
             print(f"{vertex_quantity} {links} NAO DIRECIONADO")
             writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
         show_matrix_and_weights(matrix, vertex_quantity, writer)
-    # print(matrix)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
