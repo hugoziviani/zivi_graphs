@@ -1,0 +1,10 @@
+Busca em profundidade
+
+Percorre todos os caminhos possíveis indo o mais fundo possível.
+Necessário que a entrada seja por lista de adjacências.
+
+Tecnica: começa a partir de um vertice(raiz), que será marcado como visitado. Selecionamos
+um outro vértice qualquer dentre os seus vizinhos e recursivamente chamamos a busca por profundidade
+até não haver nenhum vertice alcançavel mais (todos sejam marcados como visitado)
+
+- Vou precisar de uma estrutura que me permita dizer se o vertice já foi visitado.
