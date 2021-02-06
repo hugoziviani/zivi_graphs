@@ -1,19 +1,21 @@
 """
  Depth-First Search - DFS
 
-Entrada: Grafo(vertices, arestas), vertice inicial v, marca-lo como visitado.
+Entrada: Grafo(vertices, arestas)
+Cria uma fila vazia Q
+Vertice inicial v, marca-lo como visitado.
 
-enquanto existir w vizinho de v, faça
-    se w é marcado como não visitado então
-        Visite a aresta {v,w}
-        DFS(G, w) //chamada recursiva da função
-    fim
-    senão
-        se{v, w} não foi visitada ainda então
-            Visite{v, w}
+enquanto Q != vazia faça
+    v  = Q.pop (tiro um elemento para analise)
+    para todo vertice w vizinho de v faça
+        se w nao foi vizitado entao
+            visite a aresta {v,w}
+            insira w em Q
+            Marque w como visitado
         fim
-    fim
-fim
+        senao
+            se {v, w}
+
 """
 
 import sys
@@ -85,7 +87,18 @@ def read_input_and_insert_graph(file_input_path):
     return adjacences_list_updated, vertex_quantity, links, directed, start_search_vertex
 
 
+def bfs(graph, initial_vertex):
+    visited, queue = set(), [initial_vertex]
+    
+    while queue:
+        vertex = queue.pop(0)
+        if vertex[0] not in visited:
+            visited.add(vertex[0])
+            queue.extend(graph[vertex][0] - visited)
+    return visited
 
+
+    
 def dfs(graph, initial_vertex, visited):
     #passar a lista de adjacencias(grafo)
     # print("graph:", graph)
@@ -107,7 +120,6 @@ def dfs(graph, initial_vertex, visited):
                 
                 # print("visitou:",neighbor[0])
                 
-
 def depf_first_search(graph, vertex):
     visited = set() #lista vazia de arestas v, queue
     dfs(graph, vertex, visited)
@@ -131,7 +143,7 @@ def main(argv):
             # writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
         # show_list_and_weights(adjacences_list, vertex_quantity, writer)
 
-    visited = depf_first_search(adjacences_list, start_search_vertex)
+    visited = bfs(adjacences_list, start_search_vertex)
     for element in visited:
         print(element+1)
 
