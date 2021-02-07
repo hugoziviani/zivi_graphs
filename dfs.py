@@ -84,8 +84,6 @@ def read_input_and_insert_graph(file_input_path):
     file1.close()
     return adjacences_list_updated, vertex_quantity, links, directed, start_search_vertex
 
-
-
 def dfs(graph, initial_vertex, visited):
     #passar a lista de adjacencias(grafo)
     # print("graph:", graph)
