@@ -114,11 +114,8 @@ def main(argv):
         adjacences_list, vertex_quantity, links, directed, start_search_vertex = read_input_and_insert_graph(file_input_path)
         visited_list = bfs(adjacences_list, start_search_vertex)
         
-        list_way = str(map(lambda x:x+' ', visited_list))
+        list_way = map(lambda x:str(x+1)+' ', visited_list)
         writer.writelines(list_way)
-
-        # for element in visited_list:
-        #     writer.write(" " + str(element+1))
         
 if __name__ == "__main__":
     main(sys.argv[1:])

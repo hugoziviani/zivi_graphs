@@ -1,5 +1,5 @@
 """
- Depth-First Search - DFS
+Depth-First Search - DFS
 
 Entrada: Grafo(vertices, arestas), vertice inicial v, marca-lo como visitado.
 
@@ -85,26 +85,15 @@ def read_input_and_insert_graph(file_input_path):
     return adjacences_list_updated, vertex_quantity, links, directed, start_search_vertex
 
 def dfs(graph, initial_vertex, visited):
-    #passar a lista de adjacencias(grafo)
-    # print("graph:", graph)
     initial_vertex = initial_vertex-1
     visited.add(initial_vertex)
     to_be_visited = [initial_vertex]
     while to_be_visited:
-        # print("tipo:",type(to_be_visited))
         actual_vertex = to_be_visited.pop()
-        
         for neighbor in graph[actual_vertex]: #acessa a lista de vizinhos do vertice
-            # print("actual:", actual_vertex)
-            # print("Vizinho:", neighbor)
-            # print("Vizinhos:", graph[actual_vertex])
-            # # return
             if neighbor[0] not in visited:
                 visited.add(neighbor[0])
                 to_be_visited.append(neighbor[0])
-                
-                # print("visitou:",neighbor[0])
-                
 
 def depf_first_search(graph, vertex):
     visited = set() #lista vazia de arestas v, queue
@@ -113,25 +102,15 @@ def depf_first_search(graph, vertex):
     return visited
 
 def main(argv):
-    # file_input_path = argv[0]
-    # file_output_path = argv[1]
-    file_input_path = "input_search.txt"
-    file_output_path = "out.txt"
+    file_input_path = argv[0]
+    file_output_path = argv[1]
+    # file_input_path = "input_search.txt"
+    # file_output_path = "out.txt"
     with open(file_output_path, MODE_WRITE) as writer:
         adjacences_list, vertex_quantity, links, directed, start_search_vertex = read_input_and_insert_graph(file_input_path)
-        
-        print("We gonna start from the vertex:", start_search_vertex)        
-        if directed:
-            print(f"{vertex_quantity} {links} DIRECIONADO")
-            # writer.write(f"{vertex_quantity} {links} DIRECIONADO\n")
-        else:
-            print(f"{vertex_quantity} {links} NAO DIRECIONADO")
-            # writer.write(f"{vertex_quantity} {links} NAO DIRECIONADO\n")
-        # show_list_and_weights(adjacences_list, vertex_quantity, writer)
-
-    visited = depf_first_search(adjacences_list, start_search_vertex)
-    for element in visited:
-        print(element+1)
+        visited_list = depf_first_search(adjacences_list, start_search_vertex)
+        list_way = map(lambda x:str(x+1)+' ', visited_list)
+        writer.writelines(list_way)
 
 if __name__ == "__main__":
     main(sys.argv[1:])
