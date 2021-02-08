@@ -86,20 +86,36 @@ def read_input_and_insert_graph(file_input_path):
 
 def dfs(graph, initial_vertex, visited):
     initial_vertex = initial_vertex-1
-    visited.add(initial_vertex)
+    visited.append(initial_vertex)
     to_be_visited = [initial_vertex]
+    
     while to_be_visited:
         actual_vertex = to_be_visited.pop()
         for neighbor in graph[actual_vertex]: #acessa a lista de vizinhos do vertice
             if neighbor[0] not in visited:
-                visited.add(neighbor[0])
+                visited.append(neighbor[0])
                 to_be_visited.append(neighbor[0])
 
 def depf_first_search(graph, vertex):
-    visited = set() #lista vazia de arestas v, queue
+    visited = list() #lista vazia de arestas v, queue
     dfs(graph, vertex, visited)
 
     return visited
+
+def dfs2(graph, vertex):
+    # chamada recursiva
+    def recursive_dfs(graph, vertex):
+        visited.append(vertex)
+        for neighbor in graph[vertex]:
+            if neighbor[0] not in visited:
+                recursive_dfs(graph, neighbor[0])
+
+    visited = list()
+    for v in graph:
+        if not v in visited:
+            recursive_dfs(graph, v)
+    return visited
+
 
 def main(argv):
     file_input_path = argv[0]
@@ -108,9 +124,14 @@ def main(argv):
     # file_output_path = "out.txt"
     with open(file_output_path, MODE_WRITE) as writer:
         adjacences_list, vertex_quantity, links, directed, start_search_vertex = read_input_and_insert_graph(file_input_path)
-        visited_list = depf_first_search(adjacences_list, start_search_vertex)
-        list_way = map(lambda x:str(x+1)+' ', visited_list)
-        writer.writelines(list_way)
+        # visited_list = depf_first_search(adjacences_list, start_search_vertex)
+        visited_list = dfs2(adjacences_list, start_search_vertex)
+        
+        size_list = len(visited_list)
+        for x in range(size_list): 
+            writer.write(str(visited_list[x]+1))
+            if x < size_list-1:
+                writer.write(" ")
 
 if __name__ == "__main__":
     main(sys.argv[1:])
