@@ -102,32 +102,41 @@ def dijkstra(graph): #retorna a menor distancia de um dado nó para todos os out
     actual_vertex = 0
     actual_weight[actual_vertex] = 0
 
-    
-    for vertice in graph.keys():    
+    for vertice in graph.keys():
         current_distance[vertice] = float('inf') #inicia os vertices como infinito
 
     current_distance[actual_vertex] = 0 #distancia até ele mesmo
     to_be_visited.remove(actual_vertex) #remove ele dos nao visitados
-
+    way_to = []
+    way_to.append(actual_vertex)
     while to_be_visited: #enquanto existir no a ser visitado
+        
         neighborood = graph[actual_vertex]
+
+        print(actual_vertex, " ",neighborood)
         for neighbor, weight in neighborood: # para cada visinho do nó atual, calcular a distancia para o proximo e atualizar se necessario
+            
             current_weight = weight + actual_weight[actual_vertex]
-            distancia = current_distance.get(neighbor, float("inf"))
-            if distancia > current_weight: # se a distancia até o vizinho for maior que o que acabou de ser calculado, atualiza
+            distance = current_distance.get(neighbor, float("inf"))
+            if current_weight < distance:
+            # if distance > current_weight: # se a distancia até o vizinho for maior que o que acabou de ser calculado, atualiza
                 current_distance[neighbor] = current_weight
                 weight_control[neighbor] = current_distance[neighbor]
 
-        if not weight_control: 
-            break    
-        next_vertex = min(weight_control.items())
-        actual_vertex = next_vertex[0]
+        # if not weight_control: 
+        #     break
+        
+        # next_vertex = min(weight_control.items())
+        next_vertex = min(weight_control.items(), key=lambda x: x[1])
+        actual_vertex = next_vertex[0] #proximo vertice do caminho
         actual_weight[actual_vertex] = next_vertex[1]
         to_be_visited.remove(actual_vertex)
-        del weight_control[actual_vertex]
-
+        weight_control.pop(actual_vertex, None)
+        way_to.append(actual_vertex)
+        # print(way_to)
     
-    print(current_distance)
+    # print(current_distance)
+    return current_distance
 
     
 def main(argv):
@@ -138,12 +147,14 @@ def main(argv):
     with open(file_output_path, MODE_WRITE) as writer:
         adjacences_list, vertex_quantity, links, directed = read_input_and_insert_graph(file_input_path)
         
-        if directed:
-            print(f"{vertex_quantity} {links} DIRECIONADO")
+        # if directed:
+        #     print(f"{vertex_quantity} {links} DIRECIONADO")
             
-        else:
-            print(f"{vertex_quantity} {links} NAO DIRECIONADO")
-        dijkstra(adjacences_list)
+        # else:
+        #     print(f"{vertex_quantity} {links} NAO DIRECIONADO")
+        distances = dijkstra(adjacences_list)
+        for distance in distances.items():
+            print(f"{distance[0]+1} ({distance[1]}) :")
         # show_list_and_weights(adjacences_list, vertex_quantity, writer)
 
 if __name__ == "__main__":
